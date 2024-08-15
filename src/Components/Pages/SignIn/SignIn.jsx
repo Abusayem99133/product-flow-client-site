@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { AuthContext } from "../../Provider/AuthProvider";
 import toast from "react-hot-toast";
-// import axios from "axios";
+
 const SignIn = () => {
   const { signIn, googleLogin, gitHubLogin } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -21,21 +21,13 @@ const SignIn = () => {
     console.log(email, password);
     signIn(email, password)
       .then((result) => {
-        // const loggedInUser = result.user;
-        // console.log(loggedInUser);
-        // const user = { email };
-        // axios
-        //   .post("https://b9a11-server-side-abusayem99133.vercel.app/jwt", user, { withCredentials: true })
-        //   .then((res) => {
-        //     console.log(res.data);
-        //   });
         toast.success("Success SignIn");
         if (result.user) {
           navigate(from);
         }
       })
       .catch(() => {
-        toast.error("Login Error");
+        toast.error("SignIn Error");
       });
   };
   const handleSocialLogIn = (socialProvider) => {

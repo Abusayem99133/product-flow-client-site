@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../Provider/AuthProvider";
 
 const Navbar = () => {
   const navItems = (
@@ -12,6 +13,20 @@ const Navbar = () => {
       </li>
     </>
   );
+  const { user, logOut } = useContext(AuthContext);
+  const [theme, setTheme] = useState("light");
+  const handleToggle = (e) => {
+    if (e.target.checked) {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  };
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+    const localTheme = localStorage.getItem("theme");
+    document.querySelector("html").setAttribute("data-theme", localTheme);
+  }, [theme]);
   return (
     <div>
       <div className="navbar bg-cyan-200">
@@ -38,6 +53,18 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               {navItems}
+              <div className="sm:block lg:hidden ">
+                <div className="form-control w-52">
+                  <label className="cursor-pointer label">
+                    <span className="label-text"></span>
+                    <input
+                      type="checkbox"
+                      className="toggle toggle-secondary "
+                      onChange={handleToggle}
+                    />
+                  </label>
+                </div>
+              </div>
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">Product Flow</a>
@@ -46,6 +73,18 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{navItems}</ul>
         </div>
         <div className="navbar-end">
+          <div className="sm:hidden lg:block ">
+            <div className="form-control w-52">
+              <label className="cursor-pointer label">
+                <span className="label-text"></span>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-secondary "
+                  onChange={handleToggle}
+                />
+              </label>
+            </div>
+          </div>
           <a className="btn" href="register">
             Login
           </a>
