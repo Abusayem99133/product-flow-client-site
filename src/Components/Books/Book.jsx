@@ -26,10 +26,10 @@ const Book = () => {
             <figure className="px-10 pt-10">
               <img
                 src={
-                  book?.imageUrl ||
-                  "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  book?.product_image ||
+                  "https://uploadimage.org/images/IAocu.jpeg"
                 } // Default image if no imageUrl
-                alt={book?.name}
+                alt={book?.product_name}
                 className="rounded-xl"
               />
             </figure>
@@ -37,9 +37,9 @@ const Book = () => {
               <h2 className="card-title">Name: {book?.product_name}</h2>
               <p>Description: {book?.description}</p>
               <p>Price: {book?.price}$</p>
-              <p>Section: {book?.section}</p>
+              <p>Section: {book?.category}</p>
               <p>Rating: {book?.rating}</p>
-              <p>Product-Date: {book?.productDate}</p>
+              <p>Product-Date: {book?.product_creation_date}</p>
               <p>Time: {book?.time}</p>
               <div className="card-actions">
                 <button className="btn btn-primary">Buy Now</button>
