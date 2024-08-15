@@ -1,11 +1,24 @@
 import React from "react";
 import Header from "../Header/Header";
+import Food from "../Books/Book";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const Home = () => {
+  // const { data = [], isLoading } = useQuery({
+  //   queryKey: ["books"],
+  //   queryFn: async () => {
+  //     const { data } = await axios.get("http://localhost:5000/foods");
+  //     return data;
+  //   },
+  // });
+  // console.log(data);
   return (
     <div>
-      <h2>Hello Product</h2>
       <Header />
+      <div>
+        <Food />
+      </div>
     </div>
   );
 };
