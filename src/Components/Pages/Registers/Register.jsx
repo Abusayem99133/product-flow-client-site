@@ -7,7 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import regis from "../../../assets/depositphotos_9125976-stock-photo-register-now.jpg";
 const Register = () => {
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,7 +30,7 @@ const Register = () => {
     }
     createUser(email, password)
       .then((result) => {
-        updateUserProfile(name, photo).then(() => {});
+        // updateUserProfile(name, photo).then(() => {});
         navigate(from);
         const user = result.user;
         console.log(user);
@@ -106,14 +106,17 @@ const Register = () => {
               </span>
             </div>
             <div className="form-control mt-6">
-              <button className="btn text-2xl bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:shadow-xl hover:shadow-black">
+              <button className="btn text-2xl bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:shadow-xl hover:shadow-black text-white">
                 Register
               </button>
             </div>
             <hr />
-            <h2>
+            <h2 className="text-white">
               Ready For Login Now..!{" "}
-              <Link className="text-white text-center font-bold" to="/signIn">
+              <Link
+                className="text-teal-200 text-center font-bold"
+                to="/signIn"
+              >
                 SignIn
               </Link>
             </h2>

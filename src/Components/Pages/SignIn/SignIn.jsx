@@ -48,9 +48,12 @@ const SignIn = () => {
         </div>
         <div className="md:w-1/2">
           <form onSubmit={handleLogin} className="card-body">
+            <h2 className="text-4xl text-white text-center shadow-sm">
+              SignIn Now !
+            </h2>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Email</span>
+                <span className="label-text text-white">Email</span>
               </label>
               <input
                 type="email"
@@ -79,11 +82,16 @@ const SignIn = () => {
               </span>
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary">Login</button>
+              <button className="btn text-2xl  bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:shadow-xl hover:shadow-black text-white">
+                SignIn
+              </button>
             </div>
-            <h2>
+            <h2 className="text-white">
               Please Register Now{" "}
-              <Link className="text-white font-bold text-center" to="/register">
+              <Link
+                className="text-teal-300 font-bold text-center"
+                to="/register"
+              >
                 Register
               </Link>
             </h2>

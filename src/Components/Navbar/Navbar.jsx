@@ -85,9 +85,43 @@ const Navbar = () => {
               </label>
             </div>
           </div>
-          <a className="btn" href="register">
-            Login
-          </a>
+          {user?.email ? (
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10">
+                  <img
+                    className="rounded-full"
+                    alt="user photo"
+                    src={user?.photoURL || ""}
+                  />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <button className="btn btn-sm btn-ghost">
+                    {user?.displayName || "User Name not found"}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => logOut()}
+                    className="btn btn-sm btn-ghost"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <Link to="/login">
+              <button className=" border-2 border-sky-500 py-2 px-4 hover:bg-sky-500 rounded-md  mr-4">
+                Login
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

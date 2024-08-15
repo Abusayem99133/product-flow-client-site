@@ -14,12 +14,24 @@ const Book = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <span className="loading loading-spinner text-success"></span>
+      </div>
+    );
   }
 
   return (
     <div>
-      <h1 className="text-3xl font-bold my-12">Islamic Book Corner</h1>
+      <h1 className="text-3xl font-bold my-12">Islamic Books</h1>
+      <div className="my-4">
+        <input
+          type="text"
+          placeholder="Search here..."
+          className="input input-bordered w-full max-w-xs"
+        />
+        <button className="btn bg-blue-300">Search</button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {books.map((book) => (
           <div key={book?.id} className="card bg-base-300 w-96 shadow-xl">
