@@ -5,7 +5,7 @@ const Book = () => {
   const [loading, setLoading] = useState(true); // State to handle loading
 
   useEffect(() => {
-    fetch("http://localhost:5000/foods")
+    fetch("http://localhost:5000/books")
       .then((res) => res.json())
       .then((data) => {
         setBooks(data);
@@ -19,7 +19,7 @@ const Book = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold my-12">This is Food</h1>
+      <h1 className="text-3xl font-bold my-12">Islamic Book Corner</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {books.map((book) => (
           <div key={book?.id} className="card bg-base-300 w-96 shadow-xl">
