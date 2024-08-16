@@ -50,7 +50,7 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[10] mt-3 w-52 p-2 shadow"
             >
               {navItems}
               <div className="sm:block lg:hidden ">
@@ -73,7 +73,7 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{navItems}</ul>
         </div>
         <div className="navbar-end">
-          <div className="sm:hidden lg:block ">
+          <div className="hidden lg:block ">
             <div className="form-control w-52">
               <label className="cursor-pointer label">
                 <span className="label-text"></span>
