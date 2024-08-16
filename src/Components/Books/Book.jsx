@@ -23,7 +23,7 @@ const Book = () => {
   }
   console.log(books);
   return (
-    <div className="max-w-7xl mx-auto">
+    <div id="book" className="max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold my-12 text-center">Islamic Books</h1>
       <div className="my-4 text-center">
         <input
@@ -103,17 +103,23 @@ const Book = () => {
               <p>Product-Date: {book?.product_creation_date}</p>
               <p>Time: {book?.time}</p>
               <div className="card-actions">
-                <button className="btn btn-primary">Buy Now</button>
+                <button className="btn bg-blue-300">View Details</button>
               </div>
             </div>
           </div>
         ))}
       </div>
       <div className="text-center my-8">
-        <button className="btn  btn-secondary mr-4 tooltip" data-tip="Previous">
+        <button
+          className="btn  bg-blue-300 mr-4 tooltip hover:shadow-xl hover:shadow-purple-700"
+          data-tip="Previous"
+        >
           <IoIosArrowDropleft className="text-2xl" />
         </button>
-        <button className="btn btn-primary tooltip" data-tip="Next">
+        <button
+          className="btn bg-blue-300 hover:shadow-xl hover:shadow-purple-700 tooltip"
+          data-tip="Next"
+        >
           <IoIosArrowDropright className="text-2xl" />
         </button>
       </div>
