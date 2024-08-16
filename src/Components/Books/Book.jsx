@@ -1,10 +1,35 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
 
 const Book = () => {
   const [books, setBooks] = useState([]); // State to store fetched data
   const [loading, setLoading] = useState(true); // State to handle loading
+  const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const res = await axios.get(`/api/books?page=${currentPage}&limit=9`);
+      setProducts(res?.data?.products);
+      setTotalPages(res?.data?.totalPages);
+    };
+
+    fetchProducts();
+  }, [currentPage]);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
   useEffect(() => {
     fetch("http://localhost:5000/books")
       .then((res) => res.json())
@@ -33,7 +58,7 @@ const Book = () => {
         />
         <button className="btn bg-blue-300 my-2 md:my-0">Search</button>
       </div>
-      <div className="grid grid-cols-4 my-4 gap-4">
+      <div className="grid md:grid-cols-5 my-4 gap-4">
         <div className="">
           <select className="select select-primary w-full max-w-xs">
             <option disabled selected>
@@ -80,6 +105,16 @@ const Book = () => {
           <option>Price: High to Low</option>
           <option>Date Added: Newest First</option>
         </select>
+        <select className="select select-primary w-full max-w-xs">
+          <option disabled selected>
+            All Brands
+          </option>
+          <option>Islamic Publisher</option>
+          <option>Classic Islamic Books</option>
+          <option>Scholarly Islamic Publications</option>
+          <option>Divine Wisdom Press</option>
+          <option>Islamic Knowledge Center</option>
+        </select>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {books?.slice(0, 9)?.map((book) => (
@@ -102,6 +137,7 @@ const Book = () => {
               <p>Rating: {book?.rating}</p>
               <p>Product-Date: {book?.product_creation_date}</p>
               <p>Time: {book?.time}</p>
+              <p>Brand: {book?.brand_name}</p>
               <div className="card-actions">
                 <button className="btn bg-blue-300">View Details</button>
               </div>
@@ -109,14 +145,21 @@ const Book = () => {
           </div>
         ))}
       </div>
-      <div className="text-center my-8">
+      <div className="text-center my-8 pagination">
         <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
           className="btn  bg-blue-300 mr-4 tooltip hover:shadow-xl hover:shadow-purple-700"
           data-tip="Previous"
         >
           <IoIosArrowDropleft className="text-2xl" />
         </button>
+        <span>
+          Page{currentPage} of {totalPages}
+        </span>
         <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
           className="btn bg-blue-300 hover:shadow-xl hover:shadow-purple-700 tooltip"
           data-tip="Next"
         >
