@@ -92,7 +92,10 @@ const Navbar = () => {
                   <img
                     className="rounded-full"
                     alt="user photo"
-                    src={user?.photoURL || ""}
+                    src={
+                      user?.photoURL ||
+                      "https://uploadimage.org/images/IAocu.jpeg"
+                    }
                   />
                 </div>
               </label>

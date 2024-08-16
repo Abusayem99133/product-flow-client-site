@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
 
 const Book = () => {
   const [books, setBooks] = useState([]); // State to store fetched data
@@ -23,8 +24,8 @@ const Book = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold my-12">Islamic Books</h1>
-      <div className="my-4">
+      <h1 className="text-3xl font-bold my-12 text-center">Islamic Books</h1>
+      <div className="my-4 text-center">
         <input
           type="text"
           placeholder="Search here..."
@@ -33,7 +34,7 @@ const Book = () => {
         <button className="btn bg-blue-300">Search</button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {books.map((book) => (
+        {books?.slice(0, 9)?.map((book) => (
           <div key={book?.id} className="card bg-base-300 w-96 shadow-xl">
             <figure className="px-10 pt-10">
               <img
@@ -59,6 +60,14 @@ const Book = () => {
             </div>
           </div>
         ))}
+      </div>
+      <div className="text-center my-8">
+        <button className="btn  btn-secondary mr-4 tooltip" data-tip="Previous">
+          <IoIosArrowDropleft className="text-2xl" />
+        </button>
+        <button className="btn btn-primary tooltip" data-tip="Next">
+          <IoIosArrowDropright className="text-2xl" />
+        </button>
       </div>
     </div>
   );
