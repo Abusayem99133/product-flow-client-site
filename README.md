@@ -35,6 +35,10 @@
 <h2>Install Dependencies</h2>
 <p>npm install</p>
 <hr/>
-
-<h2></h2>
-<li></li>
+<h2>Environment Variables</h2>
+<li>Create a '.env' file in the root directory.</li>
+<li>Add the necessary environment variables</li>
+<hr/>
+<h2>Deployment</h2>
+<li>Firebase Hosting: THe application is deployed on Firebase. To deploy updates, use:</li>
+<p>firebase deploy</p>
