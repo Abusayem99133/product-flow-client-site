@@ -16,6 +16,30 @@ const Book = () => {
   const [brand, setBrand] = useState("");
   const [searchText, setSearchText] = useState("");
 
+  const priceRanges = [
+    { label: "0 - 10$", min: 0, max: 10 },
+    { label: "10 - 20$", min: 10, max: 20 },
+    { label: "20 - 30$", min: 20, max: 30 },
+    { label: "30 - 40$", min: 30, max: 40 },
+    { label: "40 - 50$", min: 40, max: 50 },
+  ];
+
+  // Example: Fetch categories dynamically from an API
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/categories");
+        setCategories(res.data.categories);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -23,7 +47,7 @@ const Book = () => {
 
         const query = `?page=${currentPage}&limit=9&search=${search}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortBy=${sortBy}&brand=${brand}`;
 
-        const res = await axios.get(`http://localhost:5000api/books${query}`);
+        const res = await axios.get(`http://localhost:5000/api/books${query}`);
 
         setBooks(res.data.books);
         setTotalPages(res.data.totalPages);
@@ -49,6 +73,35 @@ const Book = () => {
     }
   };
 
+  const handleSearchText = (e) => {
+    e.preventDefault();
+    setSearch(searchText);
+  };
+
+  const handlePriceChange = (e) => {
+    const selectedRange = priceRanges.find(
+      (range) => range.label === e.target.value
+    );
+    if (selectedRange) {
+      setMinPrice(selectedRange.min);
+      setMaxPrice(selectedRange.max);
+    } else {
+      setMinPrice("");
+      setMaxPrice("");
+    }
+  };
+
+  const resetFilters = () => {
+    setSearch("");
+    setCategory("");
+    setMinPrice("");
+    setMaxPrice("");
+    setSortBy("");
+    setBrand("");
+    setSearchText("");
+    setCurrentPage(1);
+  };
+
   if (loading) {
     return (
       <div>
@@ -56,12 +109,7 @@ const Book = () => {
       </div>
     );
   }
-  const handleSearchText = (e) => {
-    e.preventDefault();
-    setSearch(searchText);
 
-    console.log(searchText, "hello searchText");
-  };
   return (
     <div id="book" className="max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold my-12 text-center">Islamic Books</h1>
@@ -74,15 +122,12 @@ const Book = () => {
           onChange={(e) => setSearchText(e.target.value)}
           className="input input-bordered w-full max-w-xs"
         />
-        <button
-          // onClick={() => setCurrentPage(1)}
-          className="btn bg-blue-300 my-2 md:my-0"
-        >
+        <button className="p-3 rounded-r-lg bg-blue-300 my-2 md:my-0">
           Search
         </button>
       </form>
 
-      <div className="grid md:grid-cols-5 my-4 gap-4">
+      <div className="grid md:grid-cols-4 my-4 gap-4">
         <div>
           <select
             className="select select-primary w-full max-w-xs"
@@ -93,43 +138,27 @@ const Book = () => {
             }}
           >
             <option value="">All Categories</option>
-            <option>Religious Texts</option>
-            <option>Hadith</option>
-            <option>Biography</option>
-            <option>Supplications</option>
-            <option>Prophets</option>
-            <option>Fiqh</option>
-            <option>Tafsir</option>
-            <option>Spirituality</option>
-            <option>Theology</option>
-            <option>Ethics</option>
-            <option>Finance</option>
-            <option>Culture</option>
-            <option>Rituals</option>
-            <option>Politics</option>
-            <option>Philosophy</option>
-            <option>Worship</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
           </select>
         </div>
 
         <div>
-          <input
-            type="number"
-            placeholder="Min Price"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-            className="input input-bordered w-full max-w-xs"
-          />
-        </div>
-
-        <div>
-          <input
-            type="number"
-            placeholder="Max Price"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            className="input input-bordered w-full max-w-xs"
-          />
+          <select
+            className="select select-primary w-full max-w-xs"
+            value={minPrice && maxPrice ? `${minPrice} - ${maxPrice}$` : ""}
+            onChange={handlePriceChange}
+          >
+            <option value="">Select Price Range</option>
+            {priceRanges.map((range) => (
+              <option key={range.label} value={range.label}>
+                {range.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         <select
@@ -162,7 +191,15 @@ const Book = () => {
           <option>Islamic Knowledge Center</option>
         </select>
       </div>
-
+      <div className="text-center my-4">
+        <button
+          type="button"
+          onClick={resetFilters}
+          className="btn bg-blue-300 ml-4 my-2 md:my-0"
+        >
+          Reset
+        </button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {books?.map((book) => (
           <div key={book?.id} className="card bg-base-300 w-96 shadow-xl">
