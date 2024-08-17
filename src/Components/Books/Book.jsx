@@ -24,22 +24,6 @@ const Book = () => {
     { label: "40 - 50$", min: 40, max: 50 },
   ];
 
-  // Example: Fetch categories dynamically from an API
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/categories");
-        setCategories(res.data.categories);
-      } catch (error) {
-        console.error("Failed to fetch categories:", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -78,20 +62,21 @@ const Book = () => {
     setSearch(searchText);
   };
 
-  const handlePriceChange = (e) => {
+  const handlePriceRangeChange = (e) => {
     const selectedRange = priceRanges.find(
       (range) => range.label === e.target.value
     );
     if (selectedRange) {
       setMinPrice(selectedRange.min);
       setMaxPrice(selectedRange.max);
+      setCurrentPage(1);
     } else {
       setMinPrice("");
       setMaxPrice("");
     }
   };
 
-  const resetFilters = () => {
+  const handleResetFilters = () => {
     setSearch("");
     setCategory("");
     setMinPrice("");
@@ -138,23 +123,38 @@ const Book = () => {
             }}
           >
             <option value="">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
+            <option>Religious Texts</option>
+            <option>Hadith</option>
+            <option>Biography</option>
+            <option>Supplications</option>
+            <option>Prophets</option>
+            <option>Fiqh</option>
+            <option>Tafsir</option>
+            <option>Spirituality</option>
+            <option>Theology</option>
+            <option>Ethics</option>
+            <option>Finance</option>
+            <option>Culture</option>
+            <option>Rituals</option>
+            <option>Politics</option>
+            <option>Philosophy</option>
+            <option>Worship</option>
           </select>
         </div>
 
         <div>
           <select
             className="select select-primary w-full max-w-xs"
-            value={minPrice && maxPrice ? `${minPrice} - ${maxPrice}$` : ""}
-            onChange={handlePriceChange}
+            value={
+              priceRanges.find(
+                (range) => range.min === minPrice && range.max === maxPrice
+              )?.label || ""
+            }
+            onChange={handlePriceRangeChange}
           >
             <option value="">Select Price Range</option>
-            {priceRanges.map((range) => (
-              <option key={range.label} value={range.label}>
+            {priceRanges.map((range, index) => (
+              <option key={index} value={range.label}>
                 {range.label}
               </option>
             ))}
@@ -191,15 +191,13 @@ const Book = () => {
           <option>Islamic Knowledge Center</option>
         </select>
       </div>
-      <div className="text-center my-4">
-        <button
-          type="button"
-          onClick={resetFilters}
-          className="btn bg-blue-300 ml-4 my-2 md:my-0"
-        >
+
+      <div className="my-4 text-center">
+        <button className="btn bg-blue-300 " onClick={handleResetFilters}>
           Reset
         </button>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {books?.map((book) => (
           <div key={book?.id} className="card bg-base-300 w-96 shadow-xl">
