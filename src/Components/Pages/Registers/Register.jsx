@@ -7,7 +7,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import regis from "../../../assets/depositphotos_9125976-stock-photo-register-now.jpg";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,6 +33,7 @@ const Register = () => {
 
     createUser(email, password)
       .then((result) => {
+        updateUserProfile(name, photo).then(() => {});
         toast.success("Successfully registered!");
         navigate(from, { replace: true });
       })

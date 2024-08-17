@@ -23,7 +23,7 @@ const Book = () => {
 
         const query = `?page=${currentPage}&limit=9&search=${search}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortBy=${sortBy}&brand=${brand}`;
 
-        const res = await axios.get(`http://localhost:5000/api/books${query}`);
+        const res = await axios.get(`http://localhost:5000api/books${query}`);
 
         setBooks(res.data.books);
         setTotalPages(res.data.totalPages);
