@@ -24,7 +24,7 @@
 
 <h2>Project Setup</h2>
 <p>Ensure you have the following installed:</p>
-<li>Node.js</li>
+<li>React.js</li>
 <li>npm</li>
 <hr/>
 <h2>Installation</h2>
@@ -36,7 +36,7 @@
 <p>npm install</p>
 <hr/>
 <h2>Environment Variables</h2>
-<li>Create a '.env' file in the root directory.</li>
+<li>Create a '.env.local' file in the root directory.</li>
 <li>Add the necessary environment variables</li>
 <hr/>
 

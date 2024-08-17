@@ -11,45 +11,54 @@ const SignIn = () => {
   const { signIn, googleLogin, gitHubLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location?.state || "/";
+  const from = location?.state?.from?.pathname || "/";
   const [showPassword, setShowPassword] = useState(false);
+
   const handleLogin = (e) => {
     e.preventDefault();
-    const form = new FormData(e.currentTarget);
-    const email = form.get("email");
-    const password = form.get("password");
-    console.log(email, password);
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
     signIn(email, password)
       .then((result) => {
-        toast.success("Success SignIn");
+        toast.success("Successfully signed in!");
         if (result.user) {
-          navigate(from);
+          navigate(from, { replace: true });
         }
       })
-      .catch(() => {
-        toast.error("SignIn Error");
+      .catch((error) => {
+        console.error("Sign-in error:", error);
+        toast.error("Failed to sign in. Please check your credentials.");
       });
   };
+
   const handleSocialLogIn = (socialProvider) => {
-    socialProvider().then((result) => {
-      if (result.user) {
-        navigate(from);
-      }
-    });
+    socialProvider()
+      .then((result) => {
+        toast.success("Successfully signed in with social account!");
+        if (result.user) {
+          navigate(from, { replace: true });
+        }
+      })
+      .catch((error) => {
+        console.error("Social login error:", error);
+        toast.error("Failed to sign in with social account.");
+      });
   };
+
   return (
     <div>
       <Helmet>
-        <title>Login-Page</title>
+        <title>Login - BookShop</title>
       </Helmet>
-      <div className=" md:flex w-full p-5 bg-blue-600">
+      <div className="md:flex w-full p-5 bg-blue-600">
         <div className="md:w-1/2">
-          <img src={signin} alt="" />
+          <img src={signin} alt="Sign In" />
         </div>
         <div className="md:w-1/2">
           <form onSubmit={handleLogin} className="card-body">
             <h2 className="text-4xl text-white text-center shadow-sm">
-              SignIn Now !
+              Sign In Now!
             </h2>
             <div className="form-control">
               <label className="label">
@@ -57,7 +66,7 @@ const SignIn = () => {
               </label>
               <input
                 type="email"
-                placeholder="email"
+                placeholder="Email"
                 name="email"
                 className="input input-bordered"
                 required
@@ -70,45 +79,37 @@ const SignIn = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="password"
+                placeholder="Password"
                 className="input input-bordered"
                 required
               />
               <span
                 onClick={() => setShowPassword(!showPassword)}
-                className="ml-60 md:ml-96 -mt-8"
+                className="ml-60 md:ml-96 -mt-8 cursor-pointer"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
             <div className="form-control mt-6">
-              <button className="btn text-2xl  bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:shadow-xl hover:shadow-black text-white">
-                SignIn
+              <button className="btn text-2xl bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 hover:shadow-xl hover:shadow-black text-white">
+                Sign In
               </button>
             </div>
-            <h2 className="text-white">
-              Please Register Now{" "}
-              <Link
-                className="text-teal-300 font-bold text-center"
-                to="/register"
-              >
+            <h2 className="text-white mt-4">
+              Don't have an account?{" "}
+              <Link className="text-teal-300 font-bold" to="/register">
                 Register
               </Link>
             </h2>
-            <hr />
-            <h2 className="text-white text-center ">Or SignIn With</h2>
-            <div className="flex justify-center space-x-6 text-4xl bg-white p-2">
-              <span>
-                <button onClick={() => handleSocialLogIn(googleLogin)}>
-                  {" "}
-                  <FcGoogle />
-                </button>
-              </span>
-              <span>
-                <button onClick={() => handleSocialLogIn(gitHubLogin)}>
-                  <FaGithub />
-                </button>
-              </span>
+            <hr className="my-4" />
+            <h2 className="text-white text-center">Or Sign In With</h2>
+            <div className="flex justify-center space-x-6 text-4xl bg-white p-2 rounded-md">
+              <button onClick={() => handleSocialLogIn(googleLogin)}>
+                <FcGoogle />
+              </button>
+              <button onClick={() => handleSocialLogIn(gitHubLogin)}>
+                <FaGithub />
+              </button>
             </div>
           </form>
         </div>

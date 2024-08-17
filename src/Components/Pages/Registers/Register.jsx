@@ -1,50 +1,55 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
 import { Helmet } from "react-helmet-async";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import regis from "../../../assets/depositphotos_9125976-stock-photo-register-now.jpg";
+
 const Register = () => {
   const { createUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location?.state || "/";
+  const from = location?.state?.from?.pathname || "/";
+
   const handleRegister = (event) => {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const name = form.get("name");
-    const photo = form.get("photo");
-    const email = form.get("email");
-    const password = form.get("password");
-    console.log(name, photo, email, password);
+    const form = event.target;
+    const name = form.name.value;
+    const photo = form.photo.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
     if (password.length < 6) {
-      toast.error("Password should be at least 6 character.!");
+      toast.error("Password should be at least 6 characters long!");
       return;
     } else if (!/(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password)) {
-      toast.error("please show the on character in Uppercase and Lowercase");
-    } else {
-      toast.success("Successfully Register");
+      toast.error(
+        "Password must contain at least one uppercase and one lowercase letter."
+      );
+      return;
     }
+
     createUser(email, password)
       .then((result) => {
-        // updateUserProfile(name, photo).then(() => {});
-        navigate(from);
-        const user = result.user;
-        console.log(user);
+        toast.success("Successfully registered!");
+        navigate(from, { replace: true });
       })
-      .catch();
+      .catch((error) => {
+        console.error("Error registering user:", error);
+        toast.error("Registration failed.");
+      });
   };
+
   return (
     <div>
       <Helmet>
-        <title>Register-page</title>
+        <title>Register - BookShop</title>
       </Helmet>
       <div className="md:flex w-full p-5 bg-cyan-500 items-center">
         <div className="md:w-1/2">
-          <img src={regis} alt="" />
+          <img src={regis} alt="Register Now" />
         </div>
         <div className="md:w-1/2">
           <form onSubmit={handleRegister} className="card-body">
@@ -69,7 +74,7 @@ const Register = () => {
               </label>
               <input
                 type="email"
-                placeholder="email"
+                placeholder="Email"
                 name="email"
                 className="input input-bordered"
                 required
@@ -77,30 +82,29 @@ const Register = () => {
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Photo</span>
+                <span className="label-text">Photo URL</span>
               </label>
               <input
                 type="text"
-                placeholder="Photo"
+                placeholder="Photo URL"
                 name="photo"
                 className="input input-bordered"
-                required
               />
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text ">Password</span>
+                <span className="label-text">Password</span>
               </label>
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="password"
+                placeholder="Password"
                 className="input input-bordered"
                 required
               />
               <span
                 onClick={() => setShowPassword(!showPassword)}
-                className="ml-60 md:ml-96 -mt-8"
+                className="ml-60 md:ml-96 -mt-8 cursor-pointer"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
@@ -112,15 +116,14 @@ const Register = () => {
             </div>
             <hr />
             <h2 className="text-white">
-              Ready For Login Now..!{" "}
+              Already have an account?{" "}
               <Link
                 className="text-teal-200 text-center font-bold"
                 to="/signIn"
               >
-                SignIn
+                Sign In
               </Link>
             </h2>
-            {/* <h2 className="text-white text-center ">Or SignIn</h2> */}
           </form>
         </div>
       </div>
