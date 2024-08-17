@@ -9,7 +9,7 @@ const Footer = () => {
           <a className="link link-hover" href="/">
             Home
           </a>
-          <a className="link link-hover " href="/books">
+          <a className="link link-hover " id="book" href="#book">
             Books
           </a>
         </nav>
