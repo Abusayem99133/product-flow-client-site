@@ -39,6 +39,11 @@
 <li>Create a '.env' file in the root directory.</li>
 <li>Add the necessary environment variables</li>
 <hr/>
+
+<h2>Run the Application Locally</h2>
+
+<li>npm run dev</li>
+<hr/>
 <h2>Deployment</h2>
-<li>Firebase Hosting: THe application is deployed on Firebase. To deploy updates, use:</li>
+<li>Firebase Hosting: THe application is deployed on Firebase. To deploy updates, use</li>
 <p>firebase deploy</p>
